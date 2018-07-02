@@ -37,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("[MyHomePage] created");
     titleState = TitleState.of(context);
     return new Scaffold(
       appBar: new AppBar(
@@ -45,7 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: PageView(
         children: <Widget>[
-          PeoplePage(),
+          PeoplePage(
+            titleState: titleState,
+            callback: (val) => setState(() => titleState.title = val),
+          ),
           Container(
             child: Center(child: Text("Timeline")),
           ),
@@ -109,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    super.initState();
     _pageController = new PageController();
+    super.initState();
   }
 
   @override

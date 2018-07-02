@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sample_app/title_inherited_widget.dart';
 
+typedef void StringCallback(String val);
+
 class PeoplePage extends StatefulWidget {
-  PeoplePage({
-    Key key,
-  }) : super(key: key);
+  PeoplePage({Key key, this.titleState, this.callback}) : super(key: key);
+
+  final TitleState titleState;
+  final StringCallback callback;
 
   @override
   _PeoplePageState createState() => _PeoplePageState();
@@ -17,13 +20,19 @@ class _PeoplePageState extends State<PeoplePage> {
   void _increase() {
     setState(() {
       _counter++;
-      titleState.title = (titleState.title + " " + _counter.toString());
     });
+    widget.callback(titleState.title + " " + _counter.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     titleState = TitleState.of(context);
+    print("[People Page] created");
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
